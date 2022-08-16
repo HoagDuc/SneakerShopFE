@@ -19,9 +19,11 @@ class Login extends Component {
     };
   }
 
-  handleOnChangeInput = (even, field) => {
+  handleOnChangeInput = (event) => {
+    let coppyState = { ...this.state };
+    coppyState[event.target.name] = event.target.value;
     this.setState({
-      [even.target.name]: even.target.value,
+      ...coppyState,
     });
   };
 
@@ -33,7 +35,6 @@ class Login extends Component {
       let data = await handleLoginAPI(this.state.email, this.state.password);
       if (data && data.errCode === 0) {
         this.props.userLoginSuccess(data.user);
-        console.log('done');
       } else {
         this.setState({
           errMessage: data.message,
@@ -50,10 +51,15 @@ class Login extends Component {
     }
   };
 
-  handleShowPassword = (even) => {
+  handleShowPassword = (event) => {
     this.setState({
       isShowPassword: !this.state.isShowPassword,
     });
+  };
+
+  onFormSubmit = (event) => {
+    event.preventDefault();
+    // send state to server with e.g. `window.fetch`
   };
 
   render() {
@@ -62,62 +68,64 @@ class Login extends Component {
         <div className="login-container">
           <div className="login-content">
             <div className="col-12 text-center title">Login</div>
-            <div className="form-group mt-4">
-              <label for="email">Email:</label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                name="email"
-                value={this.state.email}
-                onChange={(even) => this.handleOnChangeInput(even)}
-              />
-            </div>
-            <div className="form-group mt-4">
-              <label for="email">Password:</label>
-              <div className="input-password">
+            <form onSubmit={(event) => this.onFormSubmit(event)}>
+              <div className="form-group mt-4">
+                <label htmlFor="email">Email:</label>
                 <input
-                  type={this.state.isShowPassword ? 'text' : 'password'}
+                  type="email"
                   className="form-control"
-                  placeholder="Password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={(even) => this.handleOnChangeInput(even)}
+                  placeholder="Email"
+                  name="email"
+                  value={this.state.email}
+                  onChange={(event) => this.handleOnChangeInput(event)}
                 />
-                <button onClick={(even) => this.handleShowPassword(even)}>
-                  <i
-                    class={
-                      this.state.isShowPassword
-                        ? 'fas fa-eye'
-                        : 'fas fa-eye-slash'
-                    }
-                  ></i>
+              </div>
+              <div className="form-group mt-4">
+                <label htmlFor="email">Password:</label>
+                <div className="input-password">
+                  <input
+                    type={this.state.isShowPassword ? 'text' : 'password'}
+                    className="form-control"
+                    placeholder="Password"
+                    name="password"
+                    value={this.state.password}
+                    onChange={(event) => this.handleOnChangeInput(event)}
+                  />
+                  <a onClick={(event) => this.handleShowPassword(event)}>
+                    <i
+                      className={
+                        this.state.isShowPassword
+                          ? 'fas fa-eye'
+                          : 'fas fa-eye-slash'
+                      }
+                    ></i>
+                  </a>
+                </div>
+              </div>
+              <div className="form-group mt-2" style={{ color: 'red' }}>
+                {this.state.errMessage}
+              </div>
+              <div className="form-group mt-3">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-login"
+                  onClick={() => this.handleLogin()}
+                >
+                  Login
                 </button>
               </div>
-            </div>
-            <div className="form-group mt-2" style={{ color: 'red' }}>
-              {this.state.errMessage}
-            </div>
-            <div className="form-group mt-3">
-              <button
-                type="submit"
-                className="btn btn-primary btn-login"
-                onClick={() => this.handleLogin()}
-              >
-                Login
-              </button>
-            </div>
-            <div className="form-group mt-2 text-center">
-              <label className="forgot-password ">Forgot password?</label>
-            </div>
-            <div className="form-group mt-4 text-center">
-              <label>Or login with:</label>
-            </div>
-            <div className="form-group mt-2 text-center">
-              <i class="fab fa-google icon google"></i>
-              <i class="fab fa-facebook icon facebook"></i>
-              <i class="fab fa-twitter icon twitter"></i>
-            </div>
+              <div className="form-group mt-2 text-center">
+                <label className="forgot-password ">Forgot password?</label>
+              </div>
+              <div className="form-group mt-4 text-center">
+                <label>Or login with:</label>
+              </div>
+              <div className="form-group mt-2 text-center">
+                <i className="fab fa-google icon google"></i>
+                <i className="fab fa-facebook icon facebook"></i>
+                <i className="fab fa-twitter icon twitter"></i>
+              </div>
+            </form>
           </div>
         </div>
       </div>

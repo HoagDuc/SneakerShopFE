@@ -24,12 +24,13 @@
       .input-password {
         position: relative;
 
-        button {
+        a {
           position: absolute;
           right: 5px;
           top: 6px;
           border: none;
           background-color: #fff;
+          cursor: pointer;
         }
       }
 

@@ -3,7 +3,8 @@
  */
 body,
 html {
-  background-image: '#fff';
+  max-width: 1400px;
+  background-image: linear-gradient(to bottom right, #f0eaea, #fff);
   background-repeat: no-repeat;
   background-size: cover;
   font-family: $fontmain;

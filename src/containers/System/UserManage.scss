@@ -1,0 +1,17 @@
+.users-container {
+  width: 95%;
+  margin: 0 auto;
+
+  .table {
+    border: 1px solid #ccc;
+  }
+}
+
+.modal {
+  // opacity: 1;
+  display: block;
+}
+
+.btn-close {
+  display: none;
+}
